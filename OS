@@ -1,0 +1,25 @@
+import os
+
+def generate_index(folder_path):
+    if not os.path.isdir(folder_path):
+        print("Invalid folder path.")
+        return
+    
+    index = []
+
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            index.append(file_path)
+        for directory in dirs:
+            dir_path = os.path.join(root, directory)
+            index.append(dir_path)
+
+    return index
+
+folder_path = "/path/to/your/folder"
+
+index = generate_index(folder_path)
+
+for item in index:
+    print(item)

@@ -1,0 +1,65 @@
+import pygame
+import random
+
+# Initialize Pygame
+pygame.init()
+
+# Set window size and title
+WIDTH, HEIGHT = 800, 600
+window = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Plane Shooting Game")
+
+# Set colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Load player and enemy images
+player_img = pygame.image.load('player.png')
+enemy_img = pygame.image.load('enemy.png')
+
+# Set initial position for player
+player_x = WIDTH // 2
+player_y = HEIGHT - 100
+
+# Set initial position for enemy
+enemy_x = random.randint(0, WIDTH - 64)
+enemy_y = random.randint(50, 150)
+
+# Set speed for player and enemy
+player_speed = 5
+enemy_speed = 3
+
+# Main game loop
+running = True
+while running:
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Get keyboard input
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT] and player_x > 0:
+        player_x -= player_speed
+    if keys[pygame.K_RIGHT] and player_x < WIDTH - 64:
+        player_x += player_speed
+
+    # Move the enemy
+    enemy_y += enemy_speed
+    if enemy_y > HEIGHT:
+        enemy_x = random.randint(0, WIDTH - 64)
+        enemy_y = random.randint(50, 150)
+
+    # Draw game scene
+    window.fill(WHITE)
+    window.blit(player_img, (player_x, player_y))
+    window.blit(enemy_img, (enemy_x, enemy_y))
+
+    # Update display
+    pygame.display.update()
+
+    # Control frame rate
+    pygame.time.Clock().tick(60)
+
+# Quit the game
+pygame.quit()
